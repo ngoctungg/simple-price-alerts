@@ -1,0 +1,16 @@
+[package]
+name = "repositories"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+
+[dependencies]
+application = { path = "../application" }
+domain = { path = "../domain" }
+async-trait.workspace = true
+sqlx.workspace = true
+
+[dev-dependencies]
+chrono.workspace = true
+tokio.workspace = true
+testcontainers-modules.workspace = true
