@@ -1,0 +1,15 @@
+[package]
+name = "infrastructure"
+edition.workspace = true
+version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+application = { path = "../application" }
+domain = { path = "../domain" }
+contracts = { path = "../contracts" }
+shared = { path = "../shared" }
+anyhow.workspace = true
+async-trait.workspace = true
+tracing.workspace = true
