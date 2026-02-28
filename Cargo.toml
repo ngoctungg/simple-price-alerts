@@ -1,3 +1,27 @@
 [workspace]
-members = ["crates/domain"]
+members = [
+  "apps/api",
+  "apps/worker",
+  "crates/domain",
+  "crates/application",
+  "crates/infrastructure",
+  "crates/contracts",
+  "crates/shared",
+]
 resolver = "2"
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+license = "MIT"
+authors = ["simple-price-alerts contributors"]
+
+[workspace.dependencies]
+anyhow = "1"
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tracing = "0.1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
