@@ -24,3 +24,16 @@ Luồng phụ thuộc bắt buộc:
 - `application` phụ thuộc `domain` để điều phối use case qua ports/interfaces.
 - `infrastructure` phụ thuộc `application` (và có thể đọc `domain`/`contracts`/`shared`) để triển khai adapters kỹ thuật.
 - `apps` (api/worker) là composition root, wiring các thành phần `application` + `infrastructure`.
+Repository for a realtime Vietnamese stock price alert backend.
+
+## Skills
+
+This repository includes a project skill:
+
+- `skills/rust-stock-alert-bootstrap/SKILL.md`
+
+Check that required skills are present:
+
+```bash
+python3 scripts/ensure_skills.py
+```
