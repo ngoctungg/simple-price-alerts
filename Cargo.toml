@@ -7,6 +7,8 @@ members = [
   "crates/infrastructure",
   "crates/contracts",
   "crates/shared",
+  "crates/adapters",
+  "crates/repositories",
 ]
 resolver = "2"
 
@@ -20,8 +22,12 @@ authors = ["simple-price-alerts contributors"]
 anyhow = "1"
 async-trait = "0.1"
 chrono = { version = "0.4", features = ["serde"] }
+reqwest = { version = "0.12", features = ["json"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+sqlx = { version = "0.8", features = ["postgres", "runtime-tokio", "macros", "chrono", "uuid"] }
 thiserror = "2"
 tracing = "0.1"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+wiremock = "0.6"
+testcontainers-modules = { version = "0.11", features = ["postgres"] }
