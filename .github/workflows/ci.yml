@@ -2,16 +2,22 @@ name: CI
 
 on:
   push:
+    branches: ["**"]
   pull_request:
 
 jobs:
-  unit-and-contract:
-    name: Unit + Application + Contract
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
       - uses: Swatinem/rust-cache@v2
+      - name: Format check
+        run: cargo fmt --all -- --check
+      - name: Lint (clippy)
+        run: cargo clippy --all-targets --all-features -- -D warnings
       - name: Unit tests (domain)
         run: cargo test -p domain
       - name: Application tests (fake ports + smoke)
@@ -21,7 +27,7 @@ jobs:
 
   integration:
     name: Integration (Postgres testcontainer)
-    needs: unit-and-contract
+    needs: checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,3 +35,13 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Run repository integration tests
         run: cargo test -p repositories integration_find_alerts_in_postgres_container
+      - name: Migration check
+        run: |
+          if [ -d migrations ]; then
+            cargo install sqlx-cli --no-default-features --features rustls,postgres --locked
+            sqlx migrate info --source migrations
+          else
+            echo "No migrations directory found; migration check skipped."
+          fi
+      - name: Release build
+        run: cargo build --release
