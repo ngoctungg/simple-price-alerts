@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit-and-contract:
+    name: Unit + Application + Contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Unit tests (domain)
+        run: cargo test -p domain
+      - name: Application tests (fake ports + smoke)
+        run: cargo test -p application
+      - name: Adapter contract tests (mock HTTP)
+        run: cargo test -p adapters
+
+  integration:
+    name: Integration (Postgres testcontainer)
+    needs: unit-and-contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Run repository integration tests
+        run: cargo test -p repositories integration_find_alerts_in_postgres_container
